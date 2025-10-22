@@ -1,0 +1,71 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "X402 Payment Metrics",
+    "tags": ["x402", "payments", "transactions"],
+    "style": "dark",
+    "timezone": "browser",
+    "panels": [
+      {
+        "id": 1,
+        "title": "Payment Success Rate",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "rate(x402_payments_success_total[5m]) / rate(x402_payments_total[5m]) * 100",
+            "legendFormat": "Success Rate %"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "id": 2,
+        "title": "Payment Volume",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(x402_payments_total[1m])",
+            "legendFormat": "Payments/sec"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 0
+        }
+      },
+      {
+        "id": 3,
+        "title": "Batch Processing Time",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.95, rate(x402_batch_processing_duration_seconds_bucket[5m]))",
+            "legendFormat": "95th percentile"
+          },
+          {
+            "expr": "histogram_quantile(0.50, rate(x402_batch_processing_duration_seconds_bucket[5m]))",
+            "legendFormat": "50th percentile"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 8
+        }
+      }
+    ],
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    },
+    "refresh": "5s"
+  }
+}

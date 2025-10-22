@@ -1,0 +1,40 @@
+{
+  "name": "x402-streaming-payments",
+  "version": "1.0.0",
+  "description": "X402 Streaming Payments Prototype - L2-style streaming payments using Coinbase x402",
+  "private": true,
+  "workspaces": [
+    "services/*",
+    "sdk",
+    "common"
+  ],
+  "scripts": {
+    "dev": "pnpm run --parallel dev",
+    "dev:api-gateway": "pnpm --filter @x402/api-gateway dev",
+    "dev:aggregator": "pnpm --filter @x402/aggregator dev",
+    "dev:worker": "pnpm --filter @x402/worker dev",
+    "dev:reconciler": "pnpm --filter @x402/reconciler dev",
+    "dev:dashboard": "pnpm --filter @x402/dashboard dev",
+    "build": "pnpm run --recursive build",
+    "test": "pnpm run --recursive test",
+    "lint": "pnpm run --recursive lint",
+    "clean": "pnpm run --recursive clean",
+    "infra:up": "docker-compose -f docker/docker-compose.yml up -d",
+    "infra:down": "docker-compose -f docker/docker-compose.yml down",
+    "infra:logs": "docker-compose -f docker/docker-compose.yml logs -f",
+    "dev:start": "./scripts/dev-start.sh",
+    "dev:stop": "./scripts/dev-stop.sh",
+    "db:migrate": "pnpm --filter @x402/worker db:migrate",
+    "db:generate": "pnpm --filter @x402/worker db:generate",
+    "db:studio": "pnpm --filter @x402/worker db:studio"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "ts-node": "^10.9.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  }
+}

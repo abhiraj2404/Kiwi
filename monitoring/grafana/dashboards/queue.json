@@ -1,0 +1,54 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "X402 Queue Metrics",
+    "tags": ["x402", "queue", "rabbitmq"],
+    "style": "dark",
+    "timezone": "browser",
+    "panels": [
+      {
+        "id": 1,
+        "title": "Queue Depth",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "rabbitmq_queue_messages",
+            "legendFormat": "Messages in Queue"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "id": 2,
+        "title": "Message Processing Rate",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(rabbitmq_queue_messages_published_total[1m])",
+            "legendFormat": "Published/sec"
+          },
+          {
+            "expr": "rate(rabbitmq_queue_messages_delivered_total[1m])",
+            "legendFormat": "Delivered/sec"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 0
+        }
+      }
+    ],
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    },
+    "refresh": "5s"
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "name": "@x402/sdk",
+  "version": "1.0.0",
+  "description": "Client SDK for X402 streaming payments",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "dev": "tsc --watch",
+    "build": "tsc",
+    "test": "jest",
+    "lint": "eslint src/**/*.ts",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "pnpm build"
+  },
+  "dependencies": {
+    "axios": "^1.6.2",
+    "ws": "^8.14.2",
+    "@x402/common": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/ws": "^8.5.10",
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "jest": "^29.7.0",
+    "@types/jest": "^29.5.8",
+    "eslint": "^8.54.0",
+    "@typescript-eslint/eslint-plugin": "^6.12.0",
+    "@typescript-eslint/parser": "^6.12.0"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "keywords": [
+    "x402",
+    "streaming-payments",
+    "micro-payments",
+    "coinbase",
+    "blockchain"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/x402-streaming-payments.git",
+    "directory": "sdk"
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,50 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "X402 Redis Metrics",
+    "tags": ["x402", "redis"],
+    "style": "dark",
+    "timezone": "browser",
+    "panels": [
+      {
+        "id": 1,
+        "title": "Redis Memory Usage",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "redis_memory_used_bytes",
+            "legendFormat": "Memory Used"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "id": 2,
+        "title": "Redis Commands per Second",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(redis_commands_processed_total[1m])",
+            "legendFormat": "Commands/sec"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 0
+        }
+      }
+    ],
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    },
+    "refresh": "5s"
+  }
+}

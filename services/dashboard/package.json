@@ -1,0 +1,37 @@
+{
+  "name": "@x402/dashboard",
+  "version": "1.0.0",
+  "description": "Dashboard service for X402 streaming payments",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "ts-node --watch src/index.tsx",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "test": "jest",
+    "lint": "eslint src/**/*.ts",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "express": "^4.18.2",
+    "@prisma/client": "^5.6.0",
+    "prisma": "^5.6.0",
+    "winston": "^3.11.0",
+    "dotenv": "^16.3.1",
+    "@x402/common": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.37",
+    "@types/react-dom": "^18.2.15",
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "ts-node": "^10.9.0",
+    "jest": "^29.7.0",
+    "@types/jest": "^29.5.8",
+    "eslint": "^8.54.0",
+    "@typescript-eslint/eslint-plugin": "^6.12.0",
+    "@typescript-eslint/parser": "^6.12.0"
+  }
+}

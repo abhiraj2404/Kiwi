@@ -1,0 +1,57 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String   @id @default(uuid())
+  walletAddr  String   @unique @map("wallet_addr")
+  status      String   @default("active")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  batches Batch[]
+  events  Event[]
+
+  @@map("users")
+}
+
+model Batch {
+  batchId        String   @id @map("batch_id")
+  userId         String   @map("user_id")
+  intervalStart  BigInt   @map("interval_start")
+  intervalEnd    BigInt   @map("interval_end")
+  amountDecimal  Decimal  @map("amount_decimal") @db.Decimal(20, 8)
+  status         String   @default("pending")
+  x402Id         String?  @map("x402_id")
+  idempotencyKey String   @unique @map("idempotency_key")
+  attempts       Int      @default(0)
+  lastError      String?  @map("last_error")
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("batches")
+}
+
+model Event {
+  id          String   @id @default(uuid()) @map("event_id")
+  userId      String   @map("user_id")
+  type        String
+  ts          BigInt
+  seconds     Decimal? @db.Decimal(10, 3)
+  rawPayload  Json?    @map("raw_payload")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("events")
+}
