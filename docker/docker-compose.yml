@@ -3,14 +3,14 @@ version: "3.9"
 services:
   redis:
     image: redis:7-alpine
-    container_name: x402-redis
+    container_name: kiwi-redis
     ports:
       - "6379:6379"
     restart: unless-stopped
 
   postgres:
     image: postgres:15-alpine
-    container_name: x402-postgres
+    container_name: kiwi-postgres
     environment:
       POSTGRES_USER: payments
       POSTGRES_PASSWORD: secret
@@ -24,7 +24,7 @@ services:
 
   rabbitmq:
     image: rabbitmq:3-management
-    container_name: x402-rabbitmq
+    container_name: kiwi-rabbitmq
     environment:
       RABBITMQ_DEFAULT_USER: admin
       RABBITMQ_DEFAULT_PASS: admin
@@ -35,3 +35,4 @@ services:
 
 volumes:
   pg_data:
+    name: kiwi_pg_data
