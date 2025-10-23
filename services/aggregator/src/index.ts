@@ -1,6 +1,7 @@
 import { connectRedis } from "./redisClient";
 import { connectQueue } from "./queuePublisher";
 import { AggregatorService } from "./aggregator.service";
+import { aggregator } from "./serviceInstance";
 import { generateBatchId, generateIdempotencyKey } from "@x402/common/lib/utils";
 import { BatchMessage } from "@x402/common/lib/types";
 import { CONFIG } from "@x402/common/lib/constants";
@@ -11,8 +12,6 @@ async function main() {
   try {
     await connectRedis();
     await connectQueue();
-
-    const aggregator = new AggregatorService();
 
     logger.info("Aggregator service started");
 
@@ -61,4 +60,4 @@ async function main() {
 
 main();
 
-export { AggregatorService };
+export { AggregatorService, aggregator };

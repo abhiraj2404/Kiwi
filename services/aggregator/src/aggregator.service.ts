@@ -81,4 +81,25 @@ export class AggregatorService {
     const keys = await redis.keys("user:*:counter");
     return keys.map((key) => key.split(":")[1]);
   }
+
+  // Get user status (for API Gateway)
+  async getUserStatus(userId: string): Promise<{
+    pendingAmount: string;
+    lastFlushTs: number | null;
+  }> {
+    const key = REDIS_KEYS.USER_COUNTER(userId);
+    const result = await redis.hmGet(key, ["amount", "last_update"]);
+
+    if (result[0]) {
+      return {
+        pendingAmount: result[0],
+        lastFlushTs: parseInt(result[1] || "0")
+      };
+    }
+
+    return {
+      pendingAmount: "0.000",
+      lastFlushTs: null
+    };
+  }
 }
