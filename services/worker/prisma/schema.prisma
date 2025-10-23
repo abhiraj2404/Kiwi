@@ -17,9 +17,6 @@ model User {
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
 
-  batches Batch[]
-  events  Event[]
-
   @@map("users")
 }
 
@@ -37,8 +34,6 @@ model Batch {
   createdAt      DateTime @default(now()) @map("created_at")
   updatedAt      DateTime @updatedAt @map("updated_at")
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
   @@map("batches")
 }
 
@@ -50,8 +45,6 @@ model Event {
   seconds     Decimal? @db.Decimal(10, 3)
   rawPayload  Json?    @map("raw_payload")
   createdAt   DateTime @default(now()) @map("created_at")
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("events")
 }
