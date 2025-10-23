@@ -3,13 +3,13 @@ dotenv.config();
 
 export const config = {
   // Database
-  DATABASE_URL: process.env.DATABASE_URL || "",
+  DATABASE_URL: process.env.DATABASE_URL || "postgres://payments:secret@localhost:5432/payments_db",
 
   // Redis
   REDIS_URL: process.env.REDIS_URL || "redis://localhost:6379",
 
   // RabbitMQ
-  QUEUE_URL: process.env.QUEUE_URL || "amqp://localhost:5672",
+  QUEUE_URL: process.env.QUEUE_URL || "amqp://admin:admin@localhost:5672",
 
   // API Gateway
   API_PORT: parseInt(process.env.API_PORT || "8080"),
