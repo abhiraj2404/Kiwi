@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { authenticateToken, AuthRequest } from "../middleware/auth";
+import { aggregator, ensureRedisConnection } from "../../../aggregator/dist/serviceInstance";
 import { logger } from "../utils/logger";
 
 const router: Router = Router();
@@ -14,15 +15,25 @@ router.get("/", async (req: AuthRequest, res) => {
       });
     }
 
-    // TODO: Query Redis for pending amount
-    // TODO: Query database for last batch info
+    // Get user status from aggregator service
+    let pendingAmount = "0.000";
+    let lastFlushTs: number | null = null;
 
-    // Mock response for now
+    // Ensure Redis connection before processing
+    await ensureRedisConnection();
+    const status = await aggregator.getUserStatus(userId);
+    console.log("status in status route =", status);
+    pendingAmount = status.pendingAmount;
+    lastFlushTs = status.lastFlushTs;
+
+    // TODO: Query database for last batch info (we'll implement this later)
+    let lastBatchId: string | null = null;
+
     return res.json({
       user_id: userId,
-      pending_amount: "0.000",
-      last_batch_id: null,
-      last_flush_ts: null
+      pending_amount: pendingAmount,
+      last_batch_id: lastBatchId,
+      last_flush_ts: lastFlushTs
     });
   } catch (error) {
     logger.error("Error fetching status", error);

@@ -20,7 +20,13 @@ const FLUSH_SCRIPT = `
 `;
 
 export async function connectRedis() {
-  await redisClient.connect();
+  if (!redisClient.isOpen) {
+    logger.info("Establishing new Redis connection...");
+    await redisClient.connect();
+    logger.info("Redis connection established successfully");
+  } else {
+    logger.debug("Redis client is already connected, skipping connection");
+  }
 }
 
 export { redisClient as redis };

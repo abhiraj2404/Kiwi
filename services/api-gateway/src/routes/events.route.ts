@@ -2,6 +2,7 @@ import { Router } from "express";
 import { authenticateToken, AuthRequest } from "../middleware/auth";
 import { validateUsageEvent } from "@x402/common/lib/utils";
 import { UsageEvent } from "@x402/common/lib/types";
+import { aggregator, ensureRedisConnection } from "../../../aggregator/dist/serviceInstance";
 import { logger } from "../utils/logger";
 
 const router: Router = Router();
@@ -24,8 +25,19 @@ router.post("/", async (req: AuthRequest, res) => {
       userId: req.userId
     });
 
-    // TODO: Forward to aggregator service
-    // For now, just acknowledge receipt
+    // Forward to aggregator service
+    try {
+      // Ensure Redis connection before processing
+      await ensureRedisConnection();
+      await aggregator.processEvent(event);
+      logger.info("Event forwarded to aggregator", { userId: event.user_id });
+    } catch (error) {
+      logger.error("Failed to forward event to aggregator", error);
+      return res.status(500).json({
+        success: false,
+        message: "Failed to process event"
+      });
+    }
 
     return res.json({
       success: true,

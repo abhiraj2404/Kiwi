@@ -4,7 +4,7 @@
   "description": "Dashboard service for X402 streaming payments",
   "main": "dist/index.js",
   "scripts": {
-    "dev": "ts-node --watch src/index.tsx",
+    "dev": "tsx watch src/index.tsx",
     "build": "tsc",
     "start": "node dist/index.js",
     "test": "jest",
