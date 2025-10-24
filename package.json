@@ -24,9 +24,12 @@
     "infra:logs": "docker-compose -f docker/docker-compose.yml logs -f",
     "dev:start": "./scripts/dev-start.sh",
     "dev:stop": "./scripts/dev-stop.sh",
-    "db:migrate": "pnpm --filter @x402/worker db:migrate",
-    "db:generate": "pnpm --filter @x402/worker db:generate",
-    "db:studio": "pnpm --filter @x402/worker db:studio"
+    "db:migrate": "pnpm --filter @x402/db migrate",
+    "db:migrate:deploy": "pnpm --filter @x402/db migrate:deploy",
+    "db:generate": "pnpm --filter @x402/db generate",
+    "db:studio": "pnpm --filter @x402/db studio",
+    "db:push": "pnpm --filter @x402/db push",
+    "db:seed": "pnpm --filter @x402/db seed"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { authenticateToken, AuthRequest } from "../middleware/auth";
 import { aggregator, ensureRedisConnection } from "../../../aggregator/dist/serviceInstance";
+import { prisma } from "@x402/db";
 import { logger } from "../utils/logger";
 
 const router: Router = Router();
@@ -26,8 +27,19 @@ router.get("/", async (req: AuthRequest, res) => {
     pendingAmount = status.pendingAmount;
     lastFlushTs = status.lastFlushTs;
 
-    // TODO: Query database for last batch info (we'll implement this later)
+    // Query database for last batch info
     let lastBatchId: string | null = null;
+    try {
+      const lastBatch = await prisma.batch.findFirst({
+        where: { userId },
+        orderBy: { createdAt: "desc" },
+        select: { batchId: true }
+      });
+      lastBatchId = lastBatch?.batchId || null;
+    } catch (error) {
+      logger.error("Error fetching last batch from database", error);
+      // Continue without lastBatchId rather than failing the entire request
+    }
 
     return res.json({
       user_id: userId,

@@ -2,3 +2,4 @@ packages:
   - "services/*"
   - "sdk"
   - "common"
+  - "db"
